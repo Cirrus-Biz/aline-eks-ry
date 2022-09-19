@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aline-service-loadbalancer
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+    - http:
+        paths:
+          # - path: /(/|$)(.*)
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: gateway
+          #       port:
+          #         number: 8080
+          - path: /bank
+            pathType: Prefix
+            backend:
+              service:
+                name: bank
+                port:
+                  number: 8083

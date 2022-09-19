@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: user
+  name: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: user
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: user
+    spec:
+      containers:
+        - env:
+            - name: APP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: USER_M
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: DB_HOST
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: DB_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: DB_PASSWORD
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: DB_PORT
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: DB_USERNAME
+            - name: ENCRYPT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: ENCRYPT_SECRET_KEY
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ry-aline-environment-variables
+                  key: JWT_SECRET_KEY
+          image: 744758641322.dkr.ecr.us-east-1.amazonaws.com/aline-user-ry
+          name: user
+          ports:
+            - containerPort: 8070
+          resources: {}
+      restartPolicy: Always
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: user
+  name: user
+spec:
+  ports:
+    - name: "8070"
+      port: 8070
+      targetPort: 8070
+  selector:
+    io.kompose.service: user
+status:
+  loadBalancer: {}

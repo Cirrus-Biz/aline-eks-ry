@@ -1,0 +1,102 @@
+version: '3.4'
+x-common-variables: &common-variables
+  # For db connection in ECS
+  DB_USERNAME: ${RDS_USERNAME}
+  DB_PASSWORD: ${RDS_PASSWORD}
+  DB_HOST: ${RDS_HOST}
+  # # For db connection locally
+  # DB_USERNAME: ${DB_USERNAME}
+  # DB_PASSWORD: ${DB_PASSWORD}
+  # DB_HOST: ${DB_HOST}
+  # Vars that don't need to be the changed
+  DB_PORT: ${DB_PORT}
+  DB_NAME: ${DB_NAME}
+  ENCRYPT_SECRET_KEY: ${ENCRYPT_SECRET_KEY}
+  JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+
+x-aws-loadbalancer: ${LOADBALANCER}
+
+services:
+  gateway:
+    image: ${ECR_URL}aline-gateway-ry
+    ports:
+      - 8080
+    environment:
+      APP_PORT: ${GATEWAY_M}
+      # APP_SERVICE_HOST: ${APP_SERVICE_HOST}
+      APP_SERVICE_HOST: ${LOADBALANCER_DNS}
+    # network_mode: bridge
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  user:
+    image: ${ECR_URL}aline-user-ry
+    # # for local use only
+    # depends_on:
+    #   - db
+    ports:
+      - 8070
+    environment:
+      <<: *common-variables
+      APP_PORT: ${USER_M}
+
+  underwriter:
+    image: ${ECR_URL}aline-underwriter-ry
+    # # for local use only
+    # depends_on:
+    #   - db
+    ports:
+      - 8071
+    environment:
+      <<: *common-variables
+      APP_PORT: ${UNDERWRITER_M}
+
+  account:
+    image: ${ECR_URL}aline-account-ry
+    # # for local use only
+    # depends_on:
+    #   - db
+    ports:
+      - 8072
+    environment:
+      <<: *common-variables
+      APP_PORT: ${ACCOUNT_M}
+
+  transaction:
+    image: ${ECR_URL}aline-transaction-ry
+    # # for local use only
+    # depends_on:
+    #   - db
+    ports:
+      - 8073
+    environment:
+      <<: *common-variables
+      APP_PORT: ${TRANSACTION_M}
+
+  bank:
+    image: ${ECR_URL}aline-bank-ry
+    # # for local use only
+    # depends_on:
+    #   - db
+    ports:
+      - 8083
+    environment:
+      <<: *common-variables
+      APP_PORT: ${BANK_M}
+
+# # This is a database for running compose locally
+#   db:
+#     image: 'mysql:latest'
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_PASSWORD: Password
+#       MYSQL_USER: admin
+#       MYSQL_DATABASE: alinedb
+#     volumes:
+#       - db-data:/var/lib/mysql
+#     ports:
+#       - 13306:3306
+
+# volumes:
+#   db-data:
+#     driver: 'local'
