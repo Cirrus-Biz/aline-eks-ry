@@ -1,0 +1,121 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: aline-class
+spec:
+  controller: ingress.k8s.aws/alb
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aline-service-loadbalancer
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: aline-class
+  rules:
+    - http:
+        paths:
+          # user endpoints
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: user
+                port:
+                  number: 8070
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: user
+                port:
+                  number: 8070
+
+          # underwriter endpoints
+          - path: /underwriter
+            pathType: Prefix
+            backend:
+              service:
+                name: underwriter
+                port:
+                  number: 8071
+          - path: /applicants
+            pathType: Prefix
+            backend:
+              service:
+                name: underwriter
+                port:
+                  number: 8071
+          - path: /applications
+            pathType: Prefix
+            backend:
+              service:
+                name: underwriter
+                port:
+                  number: 8071
+
+          # account endpoints
+          - path: /accounts
+            pathType: Prefix
+            backend:
+              service:
+                name: account
+                port:
+                  number: 8072
+          - path: /members
+            pathType: Prefix
+            backend:
+              service:
+                name: account
+                port:
+                  number: 8072
+
+          # transaction endpoints
+          - path: /transaction
+            pathType: Prefix
+            backend:
+              service:
+                name: transaction
+                port:
+                  number: 8073
+          - path: /members
+            pathType: Prefix
+            backend:
+              service:
+                name: transaction
+                port:
+                  number: 8073
+          - path: /accounts
+            pathType: Prefix
+            backend:
+              service:
+                name: transaction
+                port:
+                  number: 8073
+
+          # banks endpoints
+          - path: /banks
+            pathType: Prefix
+            backend:
+              service:
+                name: bank
+                port:
+                  number: 8083
+          - path: /branches
+            pathType: Prefix
+            backend:
+              service:
+                name: bank
+                port:
+                  number: 8083
+          - path: /members
+            pathType: Prefix
+            backend:
+              service:
+                name: bank
+                port:
+                  number: 8083

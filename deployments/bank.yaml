@@ -26,21 +26,45 @@ spec:
       containers:
         - env:
             - name: APP_PORT
-              value: "8083"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: BANK_M
             - name: DB_HOST
-              value: "cirrus-db.ctcaruquqjav.us-east-1.rds.amazonaws.com"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: DB_HOST
             - name: DB_NAME
-              value: "alinedb"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: DB_NAME
             - name: DB_PASSWORD
-              value: cirrusdb
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: DB_PASSWORD
             - name: DB_PORT
-              value: "3306"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: DB_PORT
             - name: DB_USERNAME
-              value: "cirrusdb"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: DB_USERNAME
             - name: ENCRYPT_SECRET_KEY
-              value: "thisisagreatsecretkey!!!"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: ENCRYPT_SECRET_KEY
             - name: JWT_SECRET_KEY
-              value: "WmZq4t7w!z%C&F)J@NcRfUjXn2r5u8x/"
+              valueFrom:
+                secretKeyRef:
+                  name: aline-secrets
+                  key: JWT_SECRET_KEY
           image: 744758641322.dkr.ecr.us-east-1.amazonaws.com/aline-bank-ry
           name: bank
           ports:

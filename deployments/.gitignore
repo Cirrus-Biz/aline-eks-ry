@@ -1,0 +1,9 @@
+.idea
+.vscode
+aline-*
+.key
+*.pem
+
+intro
+jenkinsfile copy
+secrets
