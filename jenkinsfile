@@ -1,12 +1,13 @@
 pipeline {
     environment {
-        ecr_url = credentials('ry_ecr_url')
-        registryEndpoint = 'aline-user-ry'
+        // ecr_url = credentials('ry_ecr_url')
+        // registryEndpoint = 'aline-user-ry'
         THE_BUTLER_SAYS_SO = credentials('ry-aws-credentials')
         AWS_PROFILE = "ry-eks"
         eks_a_key = credentials('ry_access_key')
         eks_s_key = credentials('ry_secret_access_key')
-        STACK = "ry-aline-finacial"
+        // STACK = "ry-aline-finacial"
+        eks_secrets = credentials('ry_eks_secrets')
     }
     agent {
         label 'Team-Jenkins-Worker-JAVA'
@@ -26,12 +27,40 @@ pipeline {
                 sh '. ./cluster-check.sh'
             }
         }
+        stage('Helm Loadbalancer Setup') {
+            steps {
+                sh 'helm repo add eks https://aws.github.io/eks-charts'
+
+                sh '''VPC_ID=$(aws eks describe-cluster \\
+                        --name my-eks-ry \\
+                        --query "cluster.resourcesVpcConfig.vpcId" \\
+                        --output text)'''
+
+                sh '''helm upgrade -i aws-load-balancer-controller \\
+                    eks/aws-load-balancer-controller \\
+                    -n kube-system \\
+                    --set clusterName=my-eks-ry \\
+                    --set serviceAccount.create=false \\
+                    --set serviceAccount.name=aws-load-balancer-controller \\
+                    --set image.tag="${LBC_VERSION}" \\
+                    --set region=${AWS_REGION} \\
+                    --set vpcId=${VPC_ID} \\
+                    --version="${LBC_CHART_VERSION}"'''
+                // sh '. ./eks-path-changes.sh'
+            }
+        }
+        stage('Kubectl Apply')
+            steps {
+                sh 'kubectl apply -f ${eks_secrets}'
+                sh 'kubectl apply -f ./deployments/ingress'
+                sh 'kubectl apply -f ./deployments'
+            }
     }
 
     post {
         always {
             sh 'sudo rm ./pathchanges.txt'
-            // sh 'sudo rm -rf ~/.aws/'
+            sh 'sudo rm -rf ~/.aws/'
             sh 'sudo rm -rf ~/jenkins/workspace/${JOB_NAME}/*'
             sh 'sudo rm -rf ~/jenkins/workspace/${JOB_NAME}/.git*'
         }
