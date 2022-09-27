@@ -49,12 +49,13 @@ pipeline {
                 // sh '. ./eks-path-changes.sh'
             }
         }
-        stage('Kubectl Apply')
+        stage('Kubectl Apply') {
             steps {
                 sh 'kubectl apply -f ${eks_secrets}'
                 sh 'kubectl apply -f ./deployments/ingress'
                 sh 'kubectl apply -f ./deployments'
             }
+        }
     }
 
     post {
