@@ -3,9 +3,9 @@ pipeline {
         ecr_url = credentials('ry_ecr_url')
         registryEndpoint = 'aline-user-ry'
         THE_BUTLER_SAYS_SO = credentials('ry-aws-credentials')
-        AWS_PROFILE = "ry-ecs"
-        ecs_a_key = credentials('ry_access_key')
-        ecs_s_key = credentials('ry_secret_access_key')
+        AWS_PROFILE = "ry-eks"
+        eks_a_key = credentials('ry_access_key')
+        eks_s_key = credentials('ry_secret_access_key')
         STACK = "ry-aline-finacial"
     }
     agent {
@@ -14,8 +14,8 @@ pipeline {
     stages {
         stage('EKS Context Creation') {
             steps {
-                sh 'aws configure set aws_access_key_id ${ecs_a_key} --profile ${AWS_PROFILE}'
-                sh 'aws configure set aws_secret_access_key_id ${ecs_s_key} --profile ${AWS_PROFILE}'
+                sh 'aws configure set aws_access_key_id ${eks_a_key} --profile ${AWS_PROFILE}'
+                sh 'aws configure set aws_secret_access_key_id ${eks_s_key} --profile ${AWS_PROFILE}'
                 // sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ecr_url}${registryEndpoint}'
             }
         }
