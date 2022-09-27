@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('EKS Configuration') {
             steps {
-                sh 'ls'
+                sh 'aws configure'
             }
         }
         // stage('ECS Context Creation') {
