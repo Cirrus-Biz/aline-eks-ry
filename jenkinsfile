@@ -22,7 +22,7 @@ pipeline {
         }
         stage('EKS Configuration') {
             steps {
-                sh '. ./cluster-check.sh'
+                sh 'aws eks describe-cluster --name my-eks-ry'
             }
         }
     }
