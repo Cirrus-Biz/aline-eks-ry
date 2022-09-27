@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('EKS Configuration') {
             steps {
-                sh 'aws configure'
+                sh 'eksctl create cluster --name my-eks-ry --region us-east-1 --zones us-east-1a,us-east-1b --fargate'
             }
         }
         // stage('ECS Context Creation') {
