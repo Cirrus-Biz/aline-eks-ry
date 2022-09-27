@@ -28,7 +28,6 @@ pipeline {
 
     post {
         always {
-            sh 'sudo rm ./.env'
             sh 'sudo rm -rf ~/.aws/'
             sh 'sudo rm -rf ~/jenkins/workspace/${JOB_NAME}/*'
             sh 'sudo rm -rf ~/jenkins/workspace/${JOB_NAME}/.git*'
