@@ -10,7 +10,7 @@ pipeline {
         eks_secrets = credentials('ry_eks_secrets')
         LBC_VERSION = "v2.4.1"
         LBC_CHART_VERSION = "1.4.1"
-        AWS_REGION = us-east-1
+        AWS_REGION = "us-east-1"
     }
     agent {
         label 'Team-Jenkins-Worker-JAVA'
