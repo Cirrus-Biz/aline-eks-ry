@@ -34,12 +34,10 @@ pipeline {
             steps {
                 sh 'helm repo add eks https://aws.github.io/eks-charts'
 
-                sh '''VPC_ID=$(aws eks describe-cluster \\
+                sh '''export VPC_ID=$(aws eks describe-cluster \\
                         --name my-eks-ry \\
                         --query "cluster.resourcesVpcConfig.vpcId" \\
                         --output text)'''
-
-                sh 'echo $VPC_ID'
 
                 sh '''helm upgrade -i aws-load-balancer-controller \\
                     eks/aws-load-balancer-controller \\
