@@ -8,7 +8,9 @@ pipeline {
         ecs_s_key = credentials('ry_secret_access_key')
         STACK = "ry-aline-finacial"
     }
-    agent Team-Jenkins-Worker-JAVA
+    agent {
+        label 'Team-Jenkins-Worker-JAVA'
+    }
     stages {
         stage('EKS Configuration') {
             steps {
