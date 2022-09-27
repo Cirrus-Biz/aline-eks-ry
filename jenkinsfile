@@ -15,7 +15,7 @@ pipeline {
         stage('EKS Context Creation') {
             steps {
                 sh 'aws configure set aws_access_key_id ${eks_a_key} --profile ${AWS_PROFILE}'
-                sh 'aws configure set aws_secret_access_key_id ${eks_s_key} --profile ${AWS_PROFILE}'
+                sh 'aws configure set aws_secret_access_key ${eks_s_key} --profile ${AWS_PROFILE}'
                 sh 'aws configure set region us-east-1 --profile ${AWS_PROFILE}'
                 sh 'set AWS_PROFILE=${AWS_PROFILE}'
                 // sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ecr_url}${registryEndpoint}'
