@@ -5,5 +5,5 @@ status_code="$?"
 if [ $status_code == "0" ]; then 
     echo "code is zero"
 else
-    echo "code is not zero"
+    eksctl create cluster --name my-eks-ry --region us-east-1 --zones us-east-1a,us-east-1b --fargate
 fi
