@@ -36,11 +36,6 @@ pipeline {
                 sh 'kubectl apply -f ./deployments'
                 sh 'kubectl apply -f ./deployments/ingress'
                 sh '. ./eks-path-changes.sh'
-                sh 'kubectl set image deployment/user user=user:latest'
-                sh 'kubectl set image deployment/underwriter underwriter=underwriter:latest'
-                sh 'kubectl set image deployment/account account=account:latest'
-                sh 'kubectl set image deployment/transaction transaction=transaction:latest'
-                sh 'kubectl set image deployment/bank bank=bank:latest'
                 sh 'kubectl get ingress'
             }
         }
