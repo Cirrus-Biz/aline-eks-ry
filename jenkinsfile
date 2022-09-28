@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Helm Loadbalancer Setup') {
             steps {
-                sh 'helm repo add eks https://aws.github.io/eks-charts'\
+                sh 'helm repo add eks https://aws.github.io/eks-charts'
                 sh '. ./helm-lb-upgrade.sh'
             }
         }
