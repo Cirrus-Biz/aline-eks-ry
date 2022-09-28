@@ -41,6 +41,7 @@ pipeline {
                 sh 'kubectl apply -f ${eks_secrets}'
                 sh 'kubectl apply -f ./deployments'
                 sh 'kubectl apply -f ./deployments/ingress'
+                sh '. ./eks-path-changes.sh'
             }
         }
     }
