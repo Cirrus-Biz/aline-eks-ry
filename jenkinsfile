@@ -5,8 +5,6 @@ pipeline {
         eks_a_key = credentials('ry_access_key')
         eks_s_key = credentials('ry_secret_access_key')
         eks_secrets = credentials('ry_eks_secrets')
-        LBC_VERSION = "v2.4.1"
-        LBC_CHART_VERSION = "1.4.1"
         AWS_REGION = "us-east-1"
     }
     agent {
