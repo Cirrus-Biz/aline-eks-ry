@@ -38,6 +38,7 @@ pipeline {
                 sh 'kubectl apply -f ./deployments'
                 sh 'kubectl apply -f ./deployments/ingress'
                 sh '. ./eks-path-changes.sh'
+                sh 'kubectl set image deployment'
                 sh 'kubectl get ingress'
             }
         }

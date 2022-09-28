@@ -18,10 +18,6 @@ if [ $status_code -ne 0 ]; then
     --role-name "AmazonEKSLoadBalancerControllerRole" \
     --attach-policy-arn=arn:aws:iam::744758641322:policy/AWSLoadBalancerControllerIAMPolicy \
     --approve
-
-    echo 'export LBC_VERSION="v2.4.1"' >>  ~/.bash_profile
-    echo 'export LBC_CHART_VERSION="1.4.1"' >>  ~/.bash_profile
-    .  ~/.bash_profile
 else
     echo "code is zero"
 fi
