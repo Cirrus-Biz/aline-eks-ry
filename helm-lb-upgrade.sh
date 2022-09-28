@@ -12,9 +12,9 @@ helm upgrade -i aws-load-balancer-controller \
     -n kube-system \
     --set clusterName=my-eks-ry \
     --set serviceAccount.create=false \
-    --set serviceAccount.name=aws-load-balancer-controller
-    --set region=${AWS_REGION}
-    --set vpcId=${VPC_ID}
+    --set serviceAccount.name=aws-load-balancer-controller \
+    --set region=${AWS_REGION} \
+    --set vpcId=${VPC_ID} \
     --set image.repository=744758641322.dkr.ecr.${AWS_REGION}.amazonaws.com/amazon/aws-load-balancer-controller
 
 # helm upgrade -i aws-load-balancer-controller \
