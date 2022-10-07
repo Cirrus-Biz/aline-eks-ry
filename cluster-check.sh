@@ -1,6 +1,5 @@
-EKS_STACK = "eksctl-my-eks-ry-cluster"
-
 set +e
+EKS_STACK = "eksctl-my-eks-ry-cluster"
 
 aws cloudformation describe-stacks --stack-name=${EKS_STACK} > stack.txt 2>&1
 
