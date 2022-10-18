@@ -23,6 +23,7 @@ if [ $stack_code -ne 0 ]; then
         --name=aws-load-balancer-controller \
         --role-name "AmazonEKSLoadBalancerControllerRole" \
         --attach-policy-arn=arn:aws:iam::744758641322:policy/AWSLoadBalancerControllerIAMPolicy \
+        --override-existing-serviceaccounts\
         --approve
     else
         echo "code is zero"
