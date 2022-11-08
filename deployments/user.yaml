@@ -10,6 +10,11 @@ metadata:
   name: user
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
       io.kompose.service: user
@@ -65,7 +70,7 @@ spec:
                 secretKeyRef:
                   name: aline-secrets
                   key: JWT_SECRET_KEY
-          image: 744758641322.dkr.ecr.us-east-1.amazonaws.com/aline-user-ry
+          image: 744758641322.dkr.ecr.us-east-1.amazonaws.com/aline-user-ry:latest
           name: user
           ports:
             - containerPort: 8070
